@@ -177,6 +177,7 @@
     <Content Include="Areas\Admin\Scripts\Product.js" />
     <Content Include="Areas\Assets\data\flot-data.js" />
     <Content Include="Areas\Assets\data\morris-data.js" />
+    <Content Include="Areas\Assets\dist\css\mycss.css" />
     <Content Include="Areas\Assets\dist\css\sb-admin-2.css" />
     <Content Include="Areas\Assets\dist\css\sb-admin-2.min.css" />
     <Content Include="Areas\Assets\dist\js\sb-admin-2.js" />
@@ -335,6 +336,7 @@
     <Content Include="Areas\Assets\vendor\font-awesome\scss\_spinning.scss" />
     <Content Include="Areas\Assets\vendor\font-awesome\scss\_stacked.scss" />
     <Content Include="Areas\Assets\vendor\font-awesome\scss\_variables.scss" />
+    <Content Include="Areas\Admin\Views\Product\View.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
