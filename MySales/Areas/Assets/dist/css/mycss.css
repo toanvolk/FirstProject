@@ -5,3 +5,9 @@
 .my-style-product .cs-input-initial{
     display: initial;
 }
+.cs-img-default {
+    height: 201px;
+    width: 251px;
+    background-image: url('../../img/img-default.jpg');
+    border: 1px solid;
+}

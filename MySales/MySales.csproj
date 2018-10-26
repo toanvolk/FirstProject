@@ -182,6 +182,7 @@
     <Content Include="Areas\Assets\dist\css\sb-admin-2.min.css" />
     <Content Include="Areas\Assets\dist\js\sb-admin-2.js" />
     <Content Include="Areas\Assets\dist\js\sb-admin-2.min.js" />
+    <Content Include="Areas\Assets\img\img-default.jpg" />
     <Content Include="Areas\Assets\js\sb-admin-2.js" />
     <Content Include="Areas\Assets\vendor\bootstrap-social\bootstrap-social.css" />
     <Content Include="Areas\Assets\vendor\bootstrap\css\bootstrap.css" />
