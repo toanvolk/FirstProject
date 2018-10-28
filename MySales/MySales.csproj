@@ -273,6 +273,7 @@
     <Content Include="Areas\Assets\vendor\morrisjs\morris.min.js" />
     <Content Include="Areas\Assets\vendor\raphael\raphael.js" />
     <Content Include="Areas\Assets\vendor\raphael\raphael.min.js" />
+    <Content Include="Common\scripts\FileHandles.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -376,6 +377,12 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lib\Lib.csproj">
+      <Project>{e2119de2-96a3-4e55-be15-fefd2ead4b9f}</Project>
+      <Name>Lib</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

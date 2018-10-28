@@ -1,4 +1,6 @@
-﻿using MySales.Areas.Admin.Models.EntityBusiness;
+﻿using Lib;
+using MySales.Areas.Admin.Models.Entity;
+using MySales.Areas.Admin.Models.EntityBusiness;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +28,15 @@ namespace MySales.Areas.Admin.Controllers
                 iTotalDisplayRecords = totalCount,
                 iTotalRecords = totalCount
             }, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult InsertData(string strData)
+        {
+            Product ob = new JsonHandles<Product>().DeserializeToObject(strData);
+            if (ob == null) return Json(-1, JsonRequestBehavior.AllowGet);
+
+            var data = model.InsertData(ob);
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
     }
 }

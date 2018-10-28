@@ -2,29 +2,33 @@
 @{
     ViewBag.Title = "Sản phẩm";
 }
-<div class="my-style-product">
+<div class="my-style-product" id="idProduct">
     <div class="row">
         <div class="col-lg-12">
             <div class="page-header">
-                <button type="button" class="btn btn-default btn-bitbucket">
+                <button type="button" class="btn btn-default btn-bitbucket" id="btnAdd">
                     <i class="fa fa-plus"> Thêm</i>
                 </button>
 
-                <button type="button" class="btn btn-info btn-bitbucket">
+                <button type="button" class="btn btn-info btn-bitbucket" id="btnEdit">
                     <i class="fa fa-edit"> Sửa</i>
                 </button>
-                <button type="button" class="btn btn-warning btn-bitbucket">
+                <button type="button" class="btn btn-danger btn-bitbucket" id="btnDelete">
+                    <i class="fa fa-remove"> Xóa</i>
+                </button>
+                <button type="button" class="btn btn-warning btn-bitbucket" id="btnCancel">
                     <i class="fa fa-times"> Hủy</i>
                 </button>
-                <button type="button" class="btn btn-primary btn-bitbucket">
+                <button type="button" class="btn btn-primary btn-bitbucket" id="btnList">
                     <i class="fa fa-list"> Danh sách</i>
                 </button>
-                <input type="text" class="form-control cs-input-initial-right" placeholder="Nhập từ khóa" />
+                <input type="text" class="form-control cs-input-initial-right" placeholder="Nhập từ khóa" id="txtFind" />
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-6 col-sm-12">
+            <input type="hidden" name="Id" />
             <div class="form-group">
                 <label>Tên sản phẩm: </label>
                 <input class="form-control" name="Name" />
@@ -36,22 +40,31 @@
 
             <div class="form-group">
                 <label>Ghi chú: </label>
-                <textarea class="form-control" rows="4"></textarea>
+                <textarea class="form-control" rows="4" name="Describle"></textarea>
             </div>
         </div>
         <div class="col-md-6 col-sm-12">
             <div class="form-group">
+                <input id="btnImageChoose" type="file" class="hidden" accept="image/*" />
                 <label>Ảnh: </label>
-                <img class="img-responsive cs-img-default" />
+                <img class="img-responsive cs-img-default" id="imgDisplay" />
+                <label for="btnImageChoose" class="btn btn-flickr bg-success">Duyệt</label>
+
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-12">
             <div class="page-footer">
-                <button type="button" class="btn btn-primary btn-bitbucket">
+                <button type="button" class="btn btn-primary btn-bitbucket" id="btnSave">
                     <i class="fa fa-save"> Lưu</i>
                 </button>
             </div>
         </div>
     </div>
+</div>
+@section scripts{
+
+    <script src="~/Areas/Admin/Scripts/Product.js"></script>
+}
+

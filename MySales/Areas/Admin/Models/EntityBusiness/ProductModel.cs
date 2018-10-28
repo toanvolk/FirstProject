@@ -51,5 +51,11 @@ namespace MySales.Areas.Admin.Models.EntityBusiness
                  });
             return data;
         }
+
+        public int InsertData(Product ob)
+        {
+            var data = context.Products.Add(ob);
+            return context.SaveChanges();
+        }
     }
 }

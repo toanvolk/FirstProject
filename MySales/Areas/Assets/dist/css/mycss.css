@@ -11,3 +11,6 @@
     background-image: url('../../img/img-default.jpg');
     border: 1px solid;
 }
+.form-control[readonly] {
+    background-color: #f9f9f9
+}
