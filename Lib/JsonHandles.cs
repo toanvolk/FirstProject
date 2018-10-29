@@ -56,8 +56,9 @@ namespace Lib
             {                
                 return new JavaScriptSerializer().Deserialize<T>(strData);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return null;
             }
 

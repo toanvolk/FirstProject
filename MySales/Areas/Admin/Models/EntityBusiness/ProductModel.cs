@@ -52,10 +52,32 @@ namespace MySales.Areas.Admin.Models.EntityBusiness
             return data;
         }
 
-        public int InsertData(Product ob)
+        public List<Product> LoadData()
         {
-            var data = context.Products.Add(ob);
-            return context.SaveChanges();
+            return context.Products.ToList();
+        }
+
+        public int InsertData(Product ob, HttpPostedFileBase uploadFile)
+        {
+            using (System.Data.Entity.DbContextTransaction tran = context.Database.BeginTransaction())
+            {
+                try
+                {
+                    //Do some CRUD operations
+                    var data = context.Products.Add(ob);
+                    context.SaveChanges();
+                    tran.Commit();
+                    //saves all 
+                    return 1;
+                    //commit transaction
+                }
+                catch (Exception ex)
+                {
+                    //Rollback transaction if exception occurs
+                    tran.Rollback();
+                    return -1;
+                }
+            }
         }
     }
 }

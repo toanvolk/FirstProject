@@ -11,7 +11,7 @@
         SetReadOnly();
         SetNavigation();
         //Hanlde code
-
+        SetEnTryInput();
     });
     $("#btnEdit").off('click').on('click', function () {
         _action = true;
@@ -31,15 +31,12 @@
 
     });
     $("#btnList").off('click').on('click', function () {
-    
+        LoadList();
     });
     $("#btnSave").off('click').on('click', function () {
+        SaveData();
         //Hanlde code
-
-
-        _action = false;
-        SetReadOnly();
-        SetNavigation();
+        
     });
     $('#btnImageChoose').change(function () {
         readURL(this, '#imgDisplay');
@@ -98,9 +95,57 @@ function SetNavigation() {
     $("#idProduct #btnCancel").prop("disabled", !_action);
     $("#idProduct #btnSave").prop("disabled", !_action);
 }
-//---------------------------------
-function InsertData(fromData);
-{
+function SetEnTryInput() {
+    $("#idProduct [name='Id']").val(0);
+    $("#idProduct [name='Name']").val('');
+    $("#idProduct [name='KeyWord']").val('');
+    $("#idProduct [name='Describle']").val('');
+}
+//--------------Readonly-----------
+function LoadList() {
+    $.ajax({
+        url: "/admin/product/LoadListView",
+        datatype: "html",
+        type: "GET",
 
+        success: function (res) {
+            $("#idProduct #modalList .modal-body").html(res);
+            $("#idProduct #modalList").modal("show");
+        },
+        error: function (res) {
+            console.log(res);
+        }
+    });
+}
+//---------------------------------
+function SaveData() {
+    var formData = new FormData();
+    formData.append("strData", GenerateFormdataJsonString('idProduct'));
+    formData.append("uploadFile", $('#btnImageChoose').get(0).files[0]);
+
+    $.ajax(
+        {
+            url: "/admin/product/insertdata",
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                if (response === 1) {
+                    //AttachFiles();
+                    alert('Dữ liệu được thêm thành công!');
+                    _action = false;
+                    SetReadOnly();
+                    SetNavigation();
+                }
+                else {
+                    alert('Error!');
+                }
+            },
+            error: function (res) {
+                console.log(res);
+            }
+
+        });
 }
 

@@ -30,13 +30,19 @@ namespace MySales.Areas.Admin.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public JsonResult InsertData(string strData)
+        public JsonResult InsertData(string strData, HttpPostedFileBase uploadFile)
         {
             Product ob = new JsonHandles<Product>().DeserializeToObject(strData);
             if (ob == null) return Json(-1, JsonRequestBehavior.AllowGet);
 
-            var data = model.InsertData(ob);
+            var data = model.InsertData(ob, uploadFile);
             return Json(data, JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public ActionResult LoadListView()
+        {
+            var data = model.LoadData();
+            return PartialView(data);
         }
     }
 }
