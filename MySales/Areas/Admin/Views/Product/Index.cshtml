@@ -1,4 +1,10 @@
-﻿
+﻿@section css{
+    <!-- DataTables CSS -->
+    <link href="/Areas/Assets/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+    <!-- DataTables Responsive CSS -->
+    <link href="/Areas/Assets/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+
+}
 @{
     ViewBag.Title = "Sản phẩm";
 }
@@ -75,7 +81,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-
+                    
                 </div>
                 <div class="modal-footer">
 
@@ -86,7 +92,9 @@
 </div>
 
 @section scripts{
-
+    <script src="/Areas/Assets/vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="/Areas/Assets/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="/Areas/Assets/vendor/datatables-responsive/dataTables.responsive.js"></script>
     <script src="~/Areas/Admin/Scripts/Product.js"></script>
 }
 

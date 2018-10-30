@@ -4,7 +4,7 @@
     //});
     SetReadOnly(true);
     SetNavigation();
-    
+
     //Set events
     $("#btnAdd").off('click').on('click', function () {
         _action = true;
@@ -36,14 +36,14 @@
     $("#btnSave").off('click').on('click', function () {
         SaveData();
         //Hanlde code
-        
+
     });
     $('#btnImageChoose').change(function () {
         readURL(this, '#imgDisplay');
     });
-    
+
 });
-//---------------------------------
+//-----------View List-------------
 var oTable;
 var _action = false;
 //---------------------------------
@@ -53,7 +53,9 @@ var BindDataTable = function InitTable() {
         oTable.destroy();
     }
     oTable = $("#bootstrap-data-table").DataTable({
+        
         lengthMenu: [[10, 20, 50, 100], [10, 20, 50, 100]],
+        "bAutoWidth": false,
         "bServerSide": true,
         "sAjaxSource": "/admin/Product/LoadData",
         "fnServerData": function (sSource, aoData, fnCallback) {
@@ -65,20 +67,45 @@ var BindDataTable = function InitTable() {
             });
         },
         columns: [
-            { "data": "STT" },
-            { "data": "KeyWord" },
-            { "data": "Name" },
-            { "data": "Describe" },
-            { "data": "Active" }
+            {
+                "data": "STT",
+                "width": "35px"
+            },
+            {
+                "data": "KeyWord"
+            },
+            {
+                "data": "Name"
+            },
+            {
+                "data": "Describe"
+             },
+            {
+                "data": "Active"
+            },
+            {
+                "data": "Id", "width": "35px",
+                "render": function (data, type, row, meta) {
+                    return "<a class='fa fa-edit' data-id='" + data + "' href='#'></a>";
+
+                }
+            }
         ]
+        
     });
 };
 //---------------------------------
 var objFormValue = {
     Id: $("#idProduct [name='Id']").val(),
-}
+};
+var FillDataToForm = function (obj) {
+    var arobj = Object.getOwnPropertyNames(obj);
+    for (i = 0; i < arobj.length; i++) {
+        $("#idProduct [name='" + arobj[i] + "']").val(obj[arobj[i]]);
+    }
+};
 //---------------------------------
-function SetReadOnly() {    
+function SetReadOnly() {
     var focus = !_action;
     $("#idProduct [name='Name']").prop("readonly", focus);
     $("#idProduct [name='KeyWord']").prop("readonly", focus);
@@ -111,6 +138,15 @@ function LoadList() {
         success: function (res) {
             $("#idProduct #modalList .modal-body").html(res);
             $("#idProduct #modalList").modal("show");
+
+            //Set events
+            BindDataTable();
+            //event click table
+            $("#bootstrap-data-table tbody").off('click').on('click','a', function () {
+                //alert($(this).data("id"));
+                LoadDataById($(this).data("id"));
+                $("#idProduct #modalList").modal("hide");
+            });
         },
         error: function (res) {
             console.log(res);
@@ -147,5 +183,21 @@ function SaveData() {
             }
 
         });
+}
+//--------------Load detail--------
+function LoadDataById(id) {
+    $.ajax({
+        url: "/admin/product/LoadDataById",
+        data: { id: id },
+        datatype: "json",
+        type: "GET",
+
+        success: function (res) {
+            FillDataToForm(res);
+        },
+        error: function (res) {
+
+        }
+    });
 }
 

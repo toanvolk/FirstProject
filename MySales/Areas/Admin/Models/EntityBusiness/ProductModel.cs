@@ -42,14 +42,20 @@ namespace MySales.Areas.Admin.Models.EntityBusiness
             var indexDefault = (pageNo - 1) * param.iDisplayLength;
             var data = lstSource.AsEnumerable()
                  .Select((ob, index) => new
-                 {                     
+                 {
                      STT = indexDefault + index + 1,
                      KeyWord = ob.KeyWord,
                      Name = ob.Name,
                      Describe = ob.Describe,
-                     Active = ob.Active
+                     Active = ob.Active,
+                     Id = ob.Id
                  });
             return data;
+        }
+
+        public Product LoadDataById(int id)
+        {
+            return context.Products.FirstOrDefault(o => o.Id == id);
         }
 
         public List<Product> LoadData()

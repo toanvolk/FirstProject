@@ -29,6 +29,12 @@ namespace MySales.Areas.Admin.Controllers
                 iTotalRecords = totalCount
             }, JsonRequestBehavior.AllowGet);
         }
+        [HttpGet]
+        public JsonResult LoadDataById(int id)
+        {
+            var data = model.LoadDataById(id);
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
         [HttpPost]
         public JsonResult InsertData(string strData, HttpPostedFileBase uploadFile)
         {
