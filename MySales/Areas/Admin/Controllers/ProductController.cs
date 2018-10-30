@@ -44,6 +44,21 @@ namespace MySales.Areas.Admin.Controllers
             var data = model.InsertData(ob, uploadFile);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
+        [HttpPost]
+        public JsonResult UpdateData(string strData, HttpPostedFileBase uploadFile)
+        {
+            Product ob = new JsonHandles<Product>().DeserializeToObject(strData);
+            if (ob == null) return Json(-1, JsonRequestBehavior.AllowGet);
+
+            var data = model.UpdateData(ob, uploadFile);
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult DeleteData(int id)
+        {       
+            var data = model.DeleteData(id);
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
         [HttpGet]
         public ActionResult LoadListView()
         {

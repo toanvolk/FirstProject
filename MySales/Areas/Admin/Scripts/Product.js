@@ -21,7 +21,7 @@
 
     });
     $("#btnDelete").off('click').on('click', function () {
-
+        DeleteData();
     });
     $("#btnCancel").off('click').on('click', function () {
         _action = false;
@@ -95,16 +95,6 @@ var BindDataTable = function InitTable() {
     });
 };
 //---------------------------------
-var objFormValue = {
-    Id: $("#idProduct [name='Id']").val(),
-};
-var FillDataToForm = function (obj) {
-    var arobj = Object.getOwnPropertyNames(obj);
-    for (i = 0; i < arobj.length; i++) {
-        $("#idProduct [name='" + arobj[i] + "']").val(obj[arobj[i]]);
-    }
-};
-//---------------------------------
 function SetReadOnly() {
     var focus = !_action;
     $("#idProduct [name='Name']").prop("readonly", focus);
@@ -113,55 +103,58 @@ function SetReadOnly() {
 }
 function SetNavigation() {
     $("#idProduct #btnAdd").prop("disabled", _action);
-    $("#idProduct #btnEdit").prop("disabled", _action);
-    $("#idProduct #btnDelete").prop("disabled", _action);
     $("#idProduct #btnList").prop("disabled", _action);
     $("#idProduct #txtFind").prop("disabled", _action);
 
     $("#idProduct #btnImageChoose").prop("disabled", !_action);
     $("#idProduct #btnCancel").prop("disabled", !_action);
     $("#idProduct #btnSave").prop("disabled", !_action);
+
+    var objDataForm = GetDataFromForm('#idProduct');
+    $("#idProduct #btnDelete").prop("disabled", objDataForm.Id == 0);
+    $("#idProduct #btnEdit").prop("disabled", objDataForm.Id == 0);
+
 }
 function SetEnTryInput() {
-    $("#idProduct [name='Id']").val(0);
-    $("#idProduct [name='Name']").val('');
-    $("#idProduct [name='KeyWord']").val('');
-    $("#idProduct [name='Describle']").val('');
+    LoadDataById(0);
 }
 //--------------Readonly-----------
 function LoadList() {
-    $.ajax({
-        url: "/admin/product/LoadListView",
-        datatype: "html",
-        type: "GET",
+    $("#idProduct #modalList").modal("show");
 
-        success: function (res) {
-            $("#idProduct #modalList .modal-body").html(res);
-            $("#idProduct #modalList").modal("show");
-
-            //Set events
-            BindDataTable();
-            //event click table
-            $("#bootstrap-data-table tbody").off('click').on('click','a', function () {
-                //alert($(this).data("id"));
-                LoadDataById($(this).data("id"));
-                $("#idProduct #modalList").modal("hide");
-            });
-        },
-        error: function (res) {
-            console.log(res);
-        }
+    //Set events
+    BindDataTable();
+    //event click table
+    $("#bootstrap-data-table tbody").off('click').on('click', 'a', function () {
+        //alert($(this).data("id"));
+        LoadDataById($(this).data("id"));
+        $("#idProduct #modalList").modal("hide");
     });
 }
-//---------------------------------
+//--------------Handel data--------
 function SaveData() {
     var formData = new FormData();
-    formData.append("strData", GenerateFormdataJsonString('idProduct'));
+    var objDataForm = GetDataFromForm('#idProduct');
+    formData.append("strData", JSON.stringify(objDataForm));
     formData.append("uploadFile", $('#btnImageChoose').get(0).files[0]);
 
+    //-----------Url--------------
+    var url = "";
+    if (objDataForm.Id > 0) {
+        url = "/admin/product/updatedata";
+    }
+    else
+        url = "/admin/product/insertdata";
+    //----------Caption alert-------------
+    var caption = "";
+    if (objDataForm.Id > 0) {
+        caption = "Cập nhật thành công!";
+    }
+    else
+        caption = "Thêm mới thành công!";
     $.ajax(
         {
-            url: "/admin/product/insertdata",
+            url: url,
             type: "POST",
             data: formData,
             contentType: false,
@@ -169,7 +162,7 @@ function SaveData() {
             success: function (response) {
                 if (response === 1) {
                     //AttachFiles();
-                    alert('Dữ liệu được thêm thành công!');
+                    alert(caption);
                     _action = false;
                     SetReadOnly();
                     SetNavigation();
@@ -184,6 +177,26 @@ function SaveData() {
 
         });
 }
+function DeleteData() {
+    var objDataForm = GetDataFromForm('#idProduct');
+    if (objDataForm.Id == 0) return 0;
+    if(confirm("Chắc chắn xóa dữ liệu này"))
+        $.ajax({
+            url: "/admin/product/deletedata",
+            data: {
+                id: objDataForm.Id
+            },
+            datatype: "Json",
+            type: "POST",
+
+            success: function (res) {
+                if (res == 1) { alert("Xóa dữ liệu thành công!");  LoadDataById(0)}
+            },
+            error: function (res) {
+                console.log(res);
+            }
+        });
+}
 //--------------Load detail--------
 function LoadDataById(id) {
     $.ajax({
@@ -193,7 +206,10 @@ function LoadDataById(id) {
         type: "GET",
 
         success: function (res) {
-            FillDataToForm(res);
+            FillDataToForm(res, "#idProduct");
+            $("#idProduct #btnDelete").prop("disabled", res.Id == 0);
+            $("#idProduct #btnEdit").prop("disabled", res.Id == 0);
+
         },
         error: function (res) {
 

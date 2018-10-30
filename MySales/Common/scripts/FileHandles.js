@@ -156,13 +156,19 @@ var serializeFormJSON = function (form) {
     });
     return o;
 };
-function GenerateFormdataJsonString(formWrapper) {
-    $('#' + formWrapper).wrap('<form></form>');
-    var tempForm = $('#' + formWrapper).parent();
+var GetDataFromForm = function(selector) {
+    $(selector).wrap('<form></form>');
+    var tempForm = $(selector).parent();
     var formData = serializeFormJSON(tempForm);
-    $('#' + formWrapper).unwrap();
-    return JSON.stringify(formData);
+    $(selector).unwrap();
+    return formData;
 }
+var FillDataToForm = function (obj, selector) {
+    var arobj = Object.getOwnPropertyNames(obj);
+    for (i = 0; i < arobj.length; i++) {
+        $(selector + " [name='" + arobj[i] + "']").val(obj[arobj[i]]);
+    }
+};
 //---------------------Disable form
 function DisableFormElements(formWrapper) {
     $('#' + formWrapper + ' input').prop('disabled', true);

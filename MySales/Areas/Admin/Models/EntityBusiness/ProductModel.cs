@@ -55,9 +55,10 @@ namespace MySales.Areas.Admin.Models.EntityBusiness
 
         public Product LoadDataById(int id)
         {
+            if (id == 0)
+                return new Product() { Id = 0 };
             return context.Products.FirstOrDefault(o => o.Id == id);
         }
-
         public List<Product> LoadData()
         {
             return context.Products.ToList();
@@ -71,6 +72,63 @@ namespace MySales.Areas.Admin.Models.EntityBusiness
                 {
                     //Do some CRUD operations
                     var data = context.Products.Add(ob);
+                    context.SaveChanges();
+                    tran.Commit();
+                    //saves all 
+                    return 1;
+                    //commit transaction
+                }
+                catch (Exception ex)
+                {
+                    //Rollback transaction if exception occurs
+                    tran.Rollback();
+                    return -1;
+                }
+            }
+        }
+        public int UpdateData(Product ob, HttpPostedFileBase uploadFile)
+        {
+            using (System.Data.Entity.DbContextTransaction tran = context.Database.BeginTransaction())
+            {
+                try
+                {
+
+                    var data = context.Products.FirstOrDefault(o => o.Id == ob.Id);
+                    if (data == null) return -1;
+                    data.KeyWord = ob.KeyWord;
+                    data.Name = ob.Name;
+                    data.Active = ob.Active;
+                    data.Describe = ob.Describe;
+                    data.UpdateBy = "";
+                    data.UpdateDate = DateTime.Now;
+
+                    context.SaveChanges();
+                    tran.Commit();
+                    //saves all 
+                    return 1;
+                    //commit transaction
+                }
+                catch (Exception ex)
+                {
+                    //Rollback transaction if exception occurs
+                    tran.Rollback();
+                    return -1;
+                }
+            }
+        }
+        public int DeleteData(int id)
+        {
+            var obFind = context.Products.FirstOrDefault(o => o.Id == id);
+            if (obFind == null) return -1;
+
+            using (System.Data.Entity.DbContextTransaction tran = context.Database.BeginTransaction())
+            {
+                try
+                {
+                    //Xóa file
+
+                    //Xóa dữ liệu
+                    context.Products.Remove(obFind);
                     context.SaveChanges();
                     tran.Commit();
                     //saves all 
